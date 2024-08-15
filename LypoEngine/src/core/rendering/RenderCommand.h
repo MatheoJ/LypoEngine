@@ -10,19 +10,22 @@ namespace Lypo
     class RenderCommand
     {
         public:
-            static void setClearColor(float r, float g, float b, float a)
+            inline static void setClearColor(float r, float g, float b, float a)
             {
-                RenderAPI::setClearColor(r, g, b, a);
+                renderAPI_->setClearColor(r, g, b, a);
             }
 
-            static void clear()
+            inline static void clear()
             {
-                RenderAPI::clear();
+                renderAPI_->clear();
             }
 
-            static void drawVertexArray(const std::shared_ptr<VertexArray>& vertexArray)
+            inline static void drawVertexArray(const std::shared_ptr<VertexArray>& vertexArray)
             {
-                RenderAPI::drawVertexArray(vertexArray);
+                renderAPI_->drawVertexArray(vertexArray);
             }
+
+        private:
+            static RenderAPI* renderAPI_;
     };
 }
