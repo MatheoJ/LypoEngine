@@ -1,7 +1,6 @@
 //
 // Created by lapor on 7/19/2024.
 //
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -11,8 +10,10 @@
 #include "core/rendering/BufferUtils.h"
 #include "platform/opengl/GLCheck.h"
 
-#include "../../core/events/event_bus.h"
-#include "windows_window.h"
+#include "core/window.h"
+#include "core/mouse.h"
+
+#include <iostream>
 
 #include "core/rendering/VertexBuffer.hpp"
 #include "core/rendering/IndexBuffer.hpp"
@@ -30,17 +31,16 @@ unsigned int createTextureShader();
 
 int main(void)
 {
-    /* create a windowed mode window and its OpenGL context */
-    platform::WindowsWindow window = platform::WindowsWindow("Windows Window", 600, 700, core::WindowFlags::DEFAULT);
-
+    auto window = core::Window::create("Windows Window", 600, 700, core::WindowFlags::DEFAULT);
+    auto mouse = core::Mouse::create(window->getNativeWindow());
+  
     //from learnopengl.com
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-/*    unsigned int shaderProgram = createBasicShader();
+    /*unsigned int shaderProgram = createBasicShader();
     unsigned int textureShader = createTextureShader();*/
-
 
     std::string fragmentPath = "../LypoEngine/assets/shaders/basicColorShader.frag.glsl";
     std::string vertexPath = "../LypoEngine/assets/shaders/basicColorShader.vert.glsl";
@@ -129,7 +129,7 @@ int main(void)
                                 { Lypo::ShaderDataType::Float2, "a_TexCoord" }
                         });
     squareVA->addVertexBuffer(squareVB);
-  
+
     uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
     std::shared_ptr<Lypo::IndexBuffer> squareIB;
     squareIB.reset(Lypo::IndexBuffer::create(squareIndices, sizeof(squareIndices)));
@@ -143,7 +143,7 @@ int main(void)
 
 
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(reinterpret_cast<GLFWwindow*>(window.getNativeWindow())))
+    while (!glfwWindowShouldClose(reinterpret_cast<GLFWwindow*>(window->getNativeWindow())))
     {
 
         Lypo::Renderer::beginScene();
@@ -155,11 +155,19 @@ int main(void)
 
         Lypo::Renderer::endScene();
 
+        /* Swap front and back buffers */
+        glfwSwapBuffers(reinterpret_cast<GLFWwindow*>(window->getNativeWindow()));
+
         /* Poll for and process events */
-        window.onUpdate();
-      
-        /* Simple test to query if a specific key is pressed */
-        // std::cout << im.isKeyPressed(68) << std::endl;
+        double xpos, ypos;
+        mouse->getPosition(xpos, ypos);
+        std::cout << "Mouse Position (" << xpos << ", " << ypos << ")" << std::endl;
+
+        if (mouse->isButtonPressed(core::ButtonValue::BUTTON_RIGHT))
+        {
+            std::cout << " Right mouse button pressed" << std::endl;
+        }
+        window->onUpdate();
     }
     return 0;
 }

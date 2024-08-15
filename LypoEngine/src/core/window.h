@@ -5,6 +5,9 @@
 
 #include <string>
 #include <cstdint>
+#include <memory>
+
+#include "core/console_log.h"
 
 namespace core 
 {
@@ -34,7 +37,7 @@ namespace core
     };
 
     /**
-     * @brief API to make the creation of an OpenGL Window easier
+     * @brief API to make the creation of a Window easier
      */
     class Window 
     {
@@ -42,10 +45,9 @@ namespace core
        /**
         * @brief Default destructor
         */
-       virtual ~Window() = default;
-       
+       virtual ~Window() noexcept = default;
        /**
-        * @brief Update the state of the window
+        * @brief Updates the state of the window
         */
        virtual void onUpdate() = 0;
 
@@ -53,20 +55,32 @@ namespace core
        virtual uint32_t getHeight() const = 0;
        
        /**
-        * @brief Set whether VSync is enabled or disabled
+        * @brief Sets whether VSync is enabled or disabled
         * 
-        * @param enabled(bool) Enable or disable VSync
+        * @param enabled Enable or disable VSync
         */
        virtual void setVSync(bool enabled) = 0;
        
        /**
-        * @brief Check if VSync is enabled or disabled for the window
+        * @brief Checks if VSync is enabled or disabled for the window
         */
        virtual bool isVSync() const = 0;
 
        /**
-        * @brief Get the implemented platform window
+        * @brief Gets the implemented platform window
         */
        virtual void* getNativeWindow() const = 0;
+
+       /**
+        * 
+        */
+       static std::unique_ptr<Window> create(const WindowProperties& props) noexcept;
+       
+       /**
+        * 
+        */
+       static std::unique_ptr<Window> create(const std::string& title, const uint32_t& width, const uint32_t& height, const WindowFlags& flag = WindowFlags::DEFAULT) noexcept;
+    protected:
+        struct DataImpl; 
     };
 }
