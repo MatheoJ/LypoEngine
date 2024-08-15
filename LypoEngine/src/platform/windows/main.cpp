@@ -4,11 +4,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "core/rendering/VertexBuffer.hpp"
-#include "core/rendering/IndexBuffer.hpp"
-#include "core/rendering/VertexArray.hpp"
-#include "core/rendering/BufferUtils.h"
-#include "platform/opengl/GLCheck.h"
 
 #include "core/window.h"
 #include "core/mouse.h"
@@ -23,6 +18,8 @@
 #include "core/rendering/shader.h"
 #include "core/rendering/Renderer.hpp"
 
+#include "core/events/event_bus.h"
+
 #include "platform/opengl/opengl_shader.h"
 #include "platform/opengl/GLCheck.h"
 
@@ -33,7 +30,7 @@ int main(void)
 {
     auto window = core::Window::create("Windows Window", 600, 700, core::WindowFlags::DEFAULT);
     auto mouse = core::Mouse::create(window->getNativeWindow());
-  
+
     //from learnopengl.com
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -86,7 +83,7 @@ int main(void)
         std::cout << "Error in glad load" << std::endl;
         return -1;
     }
-  
+
     std::shared_ptr<Lypo::OpenglShader> textureShader = std::make_shared<Lypo::OpenglShader>(vertexPath, fragmentPath);
 
     std::shared_ptr<Lypo::VertexArray> vertexArray;
