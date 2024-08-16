@@ -3,7 +3,6 @@
 //
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
 
 #include "core/window.h"
 #include "core/mouse.h"
@@ -31,6 +30,16 @@ int main(void)
     auto window = core::Window::create("Windows Window", 600, 700, core::WindowFlags::DEFAULT);
     auto mouse = core::Mouse::create(window->getNativeWindow());
 
+    /* Initialize the library */
+    if (!glfwInit())
+        return -1;
+
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
+    {
+        std::cout << "Error in glad load" << std::endl;
+        return -1;
+    }
+
     //from learnopengl.com
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -46,43 +55,6 @@ int main(void)
 
     fragmentPath = "../LypoEngine/assets/shaders/textureShader.frag.glsl";
     vertexPath = "../LypoEngine/assets/shaders/textureShader.vert.glsl";
-
-    auto& bus = Lypo::EventBus::getInstance();
-
-    auto eventHandler1 = new Lypo::RealNode(1);
-
-    auto eventHandler1_1 = new Lypo::RealNode(11);
-    auto eventHandler1_2 = new Lypo::RealNode(12);
-    auto eventHandler1_3 = new Lypo::RealNode(13);
-
-    auto eventHandler1_1_1 = new Lypo::RealNode(111);
-    auto eventHandler1_1_2 = new Lypo::RealNode(112);
-
-    auto eventHandler1_2_1 = new Lypo::RealNode(121);
-    auto eventHandler1_2_2 = new Lypo::RealNode(122);
-
-
-    eventHandler1_1->addChild(eventHandler1_1_1);
-    eventHandler1_1->addChild(eventHandler1_1_2);
-
-    eventHandler1_1->addChild(eventHandler1_2_1);
-    eventHandler1_1->addChild(eventHandler1_2_2);
-
-    bus.addEventListener(eventHandler1);
-
-    eventHandler1->addChild(eventHandler1_1);
-    eventHandler1->addChild(eventHandler1_2);
-    eventHandler1->addChild(eventHandler1_3);
-
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
-
-    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
-    {
-        std::cout << "Error in glad load" << std::endl;
-        return -1;
-    }
 
     std::shared_ptr<Lypo::OpenglShader> textureShader = std::make_shared<Lypo::OpenglShader>(vertexPath, fragmentPath);
 
@@ -136,8 +108,6 @@ int main(void)
 
     textureShader->bind();
     textureShader->uploadUniformInt("u_Texture", 0);
-
-
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(reinterpret_cast<GLFWwindow*>(window->getNativeWindow())))
