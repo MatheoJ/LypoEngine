@@ -1,6 +1,6 @@
 #include "Renderer.hpp"
 
-namespace Lypo {
+namespace hive {
 	void Renderer::beginScene()
     {
         beginScene(0.1f, 0.1f, 0.1f, 1.0f);

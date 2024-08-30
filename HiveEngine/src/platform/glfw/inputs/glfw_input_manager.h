@@ -9,7 +9,7 @@
 #include <glad/glad.h> // Needed for GLFW/glfw3.h
 #include <GLFW/glfw3.h>
 
-namespace Lypo {
+namespace hive {
     class GlfwInputManager : public InputManager {
     public:
         GlfwInputManager(GLFWwindow* window) : window_(window) {}
@@ -17,6 +17,9 @@ namespace Lypo {
         // Keyboard inputs
         bool isKeyDown(const int key) const override;
         bool isKeyUp(const int key) const override;
+
+        bool isKeyPressed(int key) override;
+        bool isKeyReleased(int key) override;
 
         // Mouse inputs
         bool isMouseButtonDown(int button) const override;
