@@ -5,7 +5,7 @@
 #include "OpenGlRenderAPI.h"
 #include <glad/glad.h>
 
-namespace Lypo {
+namespace hive {
     void OpenGlRenderAPI::setClearColor(float r, float g, float b, float a)
     {
         glClearColor(r, g, b, a);

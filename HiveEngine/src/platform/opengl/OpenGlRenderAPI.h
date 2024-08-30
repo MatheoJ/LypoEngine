@@ -5,7 +5,7 @@
 #pragma once
 #include "core/rendering/RenderAPI.h"
 
-namespace Lypo {
+namespace hive {
     class OpenGlRenderAPI : public RenderAPI
     {
         public:

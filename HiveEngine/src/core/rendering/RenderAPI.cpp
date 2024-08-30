@@ -4,7 +4,7 @@
 
 #include "RenderAPI.h"
 
-namespace Lypo
+namespace hive
 {
     RenderAPI::API RenderAPI::api_ = RenderAPI::API::OpenGL;
 }

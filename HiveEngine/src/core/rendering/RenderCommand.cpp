@@ -6,7 +6,7 @@
 #include "platform/opengl/OpenGlRenderAPI.h"
 
 
-namespace Lypo
+namespace hive
 {
     RenderAPI* getRenderAPI()
     {

@@ -5,7 +5,7 @@
 #pragma once
 #include "VertexArray.hpp"
 
-namespace Lypo
+namespace hive
 {
     class RenderAPI
     {

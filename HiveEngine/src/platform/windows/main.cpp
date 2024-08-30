@@ -119,14 +119,14 @@ int main(void)
     while (!glfwWindowShouldClose(reinterpret_cast<GLFWwindow*>(window->getNativeWindow())))
     {
 
-        Lypo::Renderer::beginScene();
+        hive::Renderer::beginScene();
 
         m_Texture->bind();
-        Lypo::Renderer::submitGeometryToDraw(squareVA, textureShader);
+        hive::Renderer::submitGeometryToDraw(squareVA, textureShader);
 
-        Lypo::Renderer::submitGeometryToDraw(vertexArray, colorShader);
+        hive::Renderer::submitGeometryToDraw(vertexArray, colorShader);
 
-        Lypo::Renderer::endScene();
+        hive::Renderer::endScene();
 
         /* Swap front and back buffers */
         glfwSwapBuffers(reinterpret_cast<GLFWwindow*>(window->getNativeWindow()));

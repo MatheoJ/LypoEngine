@@ -5,7 +5,7 @@
 #include "lypch.h"
 #include "RenderAPI.h"
 
-namespace Lypo
+namespace hive
 {
     class RenderCommand
     {
