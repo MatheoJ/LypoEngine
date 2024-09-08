@@ -48,7 +48,7 @@ int main(void)
     /*unsigned int shaderProgram = createBasicShader();
     unsigned int textureShader = createTextureShader();*/
 
-    hive::OrthographicCamera m_Camera(-1.6f, 1.6f, -0.9f, 0.9f);
+    hive::OrthographicCamera m_Camera(-1.0f, 1.0f, -1.0f, 1.0f);
 
     std::string fragmentPath = "../HiveEngine/assets/shaders/basicColorShader.frag.glsl";
     std::string vertexPath = "../HiveEngine/assets/shaders/basicColorShader.vert.glsl";
@@ -111,12 +111,15 @@ int main(void)
     textureShader->bind();
     textureShader->uploadUniformInt("u_Texture", 0);
 
+    float angle = 0.0f;
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(reinterpret_cast<GLFWwindow*>(window->getNativeWindow())))
     {
+        angle += 0.5f;
 
-        m_Camera.setPosition({ 0.5f, 0.5f, 0.0f });
-        m_Camera.setRotation(45.0f);
+        m_Camera.setPosition({ 0.5f, 0.0f, 0.0f });
+        m_Camera.setRotation(angle);
 
         hive::Renderer::beginScene(m_Camera);
 
