@@ -23,7 +23,7 @@ namespace hive
 
         virtual void unbind() const = 0;
 
-        virtual void uploadUniformMat4(const std::string& name, const glm::mat4& matrix);
+        virtual void uploadUniformMat4(const std::string& name, const glm::mat4& matrix) const = 0;
     };
 }
 

@@ -11,7 +11,7 @@ namespace hive {
 	class Renderer
 	{
 	public:
-        static void beginScene(OrthographicCamera& camera, glm::vec4 color);
+        static void beginScene(OrthographicCamera& camera, glm::vec4 backgroundColor = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
         static void endScene();
 
         static void submitGeometryToDraw(const std::shared_ptr<VertexArray>& vertexArray);

@@ -3,12 +3,16 @@
 
 namespace hive {
 
-    void Renderer::beginScene(OrthographicCamera& camera, glm::vec4 backgroundColor = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f))
+    Renderer::SceneData* Renderer::sceneData_ = new Renderer::SceneData;
+
+    void Renderer::beginScene(OrthographicCamera& camera, glm::vec4 backgroundColor)
     {
+
+
         RenderCommand::setClearColor(backgroundColor);
         RenderCommand::clear();
 
-        m_SceneData->ViewProjectionMatrix = camera.getViewProjectionMatrix();
+        sceneData_->viewProjectionMatrix = camera.getViewProjectionMatrix();
 
         //TODO: in the future we will take in parameters info on camera, light and environment to render the scene
     }
