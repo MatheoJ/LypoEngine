@@ -24,6 +24,8 @@ namespace hive
 
         void uploadUniformFloat(const std::string& name, float value);
 
+        void uploadUniformMat4(const std::string& name, const glm::mat4& matrix);
+
     private:
         unsigned int program_id = 0;
     };

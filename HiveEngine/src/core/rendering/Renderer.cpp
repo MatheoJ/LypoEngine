@@ -1,16 +1,14 @@
 #include "Renderer.hpp"
+#include <glm/glm.hpp>
 
 namespace hive {
-	void Renderer::beginScene()
-    {
-        beginScene(0.1f, 0.1f, 0.1f, 1.0f);
-    }
 
-    void Renderer::beginScene(float r, float g, float b, float a)
+    void Renderer::beginScene(OrthographicCamera& camera, glm::vec4 backgroundColor = glm::vec4(0.1f, 0.1f, 0.1f, 1.0f))
     {
-        //TODO: take a vector for the color in parameter when glm is implemented
-        RenderCommand::setClearColor(r, g, b, a);
+        RenderCommand::setClearColor(backgroundColor);
         RenderCommand::clear();
+
+        m_SceneData->ViewProjectionMatrix = camera.getViewProjectionMatrix();
 
         //TODO: in the future we will take in parameters info on camera, light and environment to render the scene
     }
@@ -28,6 +26,7 @@ namespace hive {
 
     void Renderer::submitGeometryToDraw(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader)
     {
+        shader->uploadUniformMat4("u_ViewProjection", sceneData_->viewProjectionMatrix);
         shader->bind();
         submitGeometryToDraw(vertexArray);
     }
