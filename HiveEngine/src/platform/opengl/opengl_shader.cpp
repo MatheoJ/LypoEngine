@@ -145,7 +145,7 @@ namespace hive
         glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
     }
 
-    void OpenglShader::uploadUniformFloat4(const std::string& name, glm::vec4 value)
+    void OpenglShader::uploadUniformFloat4(const std::string& name, glm::vec4 value) const
     {
         GLint location = glGetUniformLocation(program_id, name.c_str());
         glUniform4f(location, value.x, value.y, value.z, value.w);

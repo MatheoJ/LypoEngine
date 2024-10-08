@@ -8,6 +8,7 @@
 #include "orthographic_camera.h"
 #include "VertexArray.hpp"
 #include "shader.h"
+#include "Texture.h"
 
 namespace hive {
 
@@ -15,6 +16,7 @@ namespace hive {
     {
         SRef<VertexArray> QuadVertexArray;
         SRef<Shader> FlatColorShader;
+        SRef<Shader> TextureShader;
     };
 
     class Renderer2D {
@@ -27,6 +29,9 @@ namespace hive {
 
             static void drawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
             static void drawQuad(const glm::vec3 &positionWithZValue, const glm::vec2 &size, const glm::vec4 &color);
+
+            static void drawQuad(const glm::vec2& position, const glm::vec2& size, const SRef<Texture2D>& texture);
+            static void drawQuad(const glm::vec3& positionWithZValue, const glm::vec2& size, const SRef<Texture2D>& texture);
     };
 }
 

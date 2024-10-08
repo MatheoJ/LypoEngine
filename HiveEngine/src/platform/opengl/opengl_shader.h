@@ -26,7 +26,7 @@ namespace hive
 
         void uploadUniformFloat(const std::string& name, float value) const override;
 
-        void uploadUniformFloat4(const std::string& name, glm::vec4 value);
+        void uploadUniformFloat4(const std::string& name, glm::vec4 value) const override;
 
     private:
         unsigned int program_id = 0;

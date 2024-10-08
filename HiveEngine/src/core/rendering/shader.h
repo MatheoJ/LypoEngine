@@ -29,6 +29,8 @@ namespace hive
 
         virtual void uploadUniformFloat(const std::string& name, float value) const = 0;
 
+        virtual void uploadUniformFloat4(const std::string& name, glm::vec4 value) const = 0;
+
 
     };
 }

@@ -106,6 +106,7 @@ int main(void)
     squareVA->setIndexBuffer(squareIB);
 
     std::shared_ptr<hive::Texture2D> m_Texture = hive::Texture2D::Create("../HiveEngine/assets/textures/Checkerboard.png");
+    std::shared_ptr<hive::Texture2D> grassTexture = hive::Texture2D::Create("../HiveEngine/assets/textures/grass.jpg");
 
     textureShader->bind();
     textureShader->uploadUniformInt("u_Texture", 0);
@@ -127,11 +128,13 @@ int main(void)
 
         m_Texture->bind();
         hive::Renderer::submitGeometryToDraw(squareVA, textureShader);
-
         hive::Renderer::submitGeometryToDraw(vertexArray, colorShader);
 
         hive::Renderer2D::beginScene(m_Camera);
-        hive::Renderer2D::drawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.8f, 1.0f });
+        hive::Renderer2D::drawQuad({ 0.0f, 0.0f }, { 1.0f, 0.5f }, { 0.8f, 0.2f, 0.8f, 1.0f });
+
+        hive::Renderer2D::drawQuad({ 0.0f, 1.0f}, { 1.0f, 1.0f }, grassTexture);
+
 
         hive::Renderer::endScene();
         hive::Renderer2D::endScene();
