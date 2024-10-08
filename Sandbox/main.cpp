@@ -131,9 +131,8 @@ int main(void)
         hive::Renderer::submitGeometryToDraw(vertexArray, colorShader);
 
         hive::Renderer2D::beginScene(m_Camera);
-        hive::Renderer2D::drawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-        glCheckError();
-        
+        hive::Renderer2D::drawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.8f, 1.0f });
+
         hive::Renderer::endScene();
         hive::Renderer2D::endScene();
 
