@@ -26,6 +26,7 @@
 #include "platform/opengl/opengl_shader.h"
 #include "platform/opengl/GLCheck.h"
 #include "stb_image.h"
+#include "core/rendering/Renderer2D.h"
 
 unsigned int createBasicShader();
 unsigned int createTextureShader();
@@ -45,8 +46,6 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    /*unsigned int shaderProgram = createBasicShader();
-    unsigned int textureShader = createTextureShader();*/
 
     hive::OrthographicCamera m_Camera(-1.0f, 1.0f, -1.0f, 1.0f);
 
@@ -113,13 +112,16 @@ int main(void)
 
     float angle = 0.0f;
 
+    hive::Renderer2D::init();
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(reinterpret_cast<GLFWwindow*>(window->getNativeWindow())))
     {
         angle += 0.5f;
 
-        m_Camera.setPosition({ 0.5f, 0.0f, 0.0f });
+        m_Camera.setPosition({ 0.0f, 0.0f, 0.0f });
         m_Camera.setRotation(angle);
+
 
         hive::Renderer::beginScene(m_Camera);
 
@@ -128,7 +130,12 @@ int main(void)
 
         hive::Renderer::submitGeometryToDraw(vertexArray, colorShader);
 
+        hive::Renderer2D::beginScene(m_Camera);
+        hive::Renderer2D::drawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+        glCheckError();
+        
         hive::Renderer::endScene();
+        hive::Renderer2D::endScene();
 
         /* Swap front and back buffers */
         glfwSwapBuffers(reinterpret_cast<GLFWwindow*>(window->getNativeWindow()));
