@@ -1,16 +1,16 @@
-//
-// Created by samuel on 8/30/24.
-//
-//
-// Created by lapor on 7/19/2024.
-//
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <memory>
+#include <core/rendering/Renderer.hpp>
+#include <core/rendering/VertexArray.hpp>
 
-#include "core/window.h"
-#include "core/mouse.h"
+#include "core/inputs/input.h"
+#include "core/logging/Logger.h"
+#include "core/logging/LoggingFactory.h"
+#include "core/window/window.h"
+#include "core/window/window_configuration.h"
+#include "core/window/window_factory.h"
 
-#include <iostream>
+#include "scene/components.h"
+#include "scene/entity.h"
 
 #include "core/rendering/VertexBuffer.hpp"
 #include "core/rendering/IndexBuffer.hpp"
@@ -20,11 +20,13 @@
 #include "core/rendering/shader.h"
 #include "core/rendering/Renderer.hpp"
 #include "core/rendering/orthographic_camera.h"
+#include "scene/scene.h"
 
-#include "core/events/event_bus.h"
-
+#include "core/Profiling/profiler.h"
+#include "core/rendering/orthographic_camera.h"
+#include "core/rendering/Texture.h"
+#include "GLFW/glfw3.h"
 #include "platform/opengl/opengl_shader.h"
-#include "platform/opengl/GLCheck.h"
 #include "stb_image.h"
 #include "core/rendering/Renderer2D.h"
 
@@ -33,18 +35,19 @@ unsigned int createTextureShader();
 
 int main(void)
 {
-    auto window = hive::Window::create("Windows Window", 600, 700, hive::WindowFlags::DEFAULT);
+	ENABLE_PROFILING;
+	hive::Logger::setLogger(hive::LoggingFactory::createLogger(hive::LogOutputType::Console, hive::LogLevel::Info));
 
-	int width, height;
-	auto data = stbi_load("../HiveEngine/assets/icon.png", &width, &height, nullptr, 0);
-	window->setWindowIcon(data, width, height);
+    //Init Logging
+    hive::Logger::setLogger(hive::LoggingFactory::createLogger(hive::LogOutputType::Console, hive::LogLevel::Debug));
 
-    auto mouse = hive::Mouse::create(window->getNativeWindow());
+    //Init Window
+    hive::WindowConfiguration configuration;
+    configuration.set(hive::WindowConfigurationOptions::CURSOR_DISABLED, true);
+    const auto window = std::unique_ptr<hive::Window>(hive::WindowFactory::Create("Hive Engine", 800, 600, configuration));
 
-    //from learnopengl.com
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    //Init Input
+    hive::Input::init(window->getNativeWindow());
 
 
     hive::OrthographicCamera m_Camera(-1.0f, 1.0f, -1.0f, 1.0f);
@@ -110,19 +113,30 @@ int main(void)
 
     textureShader->bind();
     textureShader->uploadUniformInt("u_Texture", 0);
-
+  
+    // TEST ECS
+	hive::Scene scene = {};
+	hive::Entity entity = scene.createEntity("Test");
+	hive::Entity entity_no_name = scene.createEntity();
+	std::cout << entity.toString() << std::endl;
+	std::cout << entity_no_name.toString() << std::endl;
+	auto& tag = entity_no_name.replaceComponent<hive::TagComponent>();
+	tag.Tag = "Replace";
+	std::cout << scene.toString() << std::endl;
+  
     float angle = 0.0f;
+
 
     hive::Renderer::init();
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(reinterpret_cast<GLFWwindow*>(window->getNativeWindow())))
     {
-        angle += 0.5f;
+    	BLOCK_PROFILING("BLOCK TEST", hive::BlockStatus::ON, hive::colors::Green);
+        angle += 0.005f;
 
-        m_Camera.setPosition({ 0.0f, 0.0f, 0.0f });
+        m_Camera.setPosition({ 0.5f, 0.0f, 0.0f });
         m_Camera.setRotation(angle);
-
 
         hive::Renderer::beginScene(m_Camera);
 
@@ -139,19 +153,12 @@ int main(void)
         hive::Renderer::endScene();
         hive::Renderer2D::endScene();
 
-        /* Swap front and back buffers */
-        glfwSwapBuffers(reinterpret_cast<GLFWwindow*>(window->getNativeWindow()));
 
         /* Poll for and process events */
-        double xpos, ypos;
-        mouse->getPosition(xpos, ypos);
-
-        if (mouse->isButtonPressed(hive::ButtonValue::BUTTON_RIGHT))
-        {
-            std::cout << " Right mouse button pressed" << std::endl;
-        }
         window->onUpdate();
+    	END_BLOCK_PROFILING;
     }
+	DUMP_PROFILING("test.prof");
+    hive::Input::shutdown();
     return 0;
 }
-

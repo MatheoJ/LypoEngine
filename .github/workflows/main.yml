@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
             sudo apt update
-            sudo apt install libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev libwayland-dev libxkbcommon-dev
+            sudo apt install libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev libwayland-dev libxkbcommon-dev mesa-common-dev
 
       - name: Build submodules
         run: git submodule update --init
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: build-static-linux
-          path: ./build-full-static/hive_engine
+          path: ./build-full-static/sandbox
 
         # Ajouter apres les runs de tests
 
@@ -56,4 +56,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: build-static-windows
-          path: ./build-full-static/hive_engine.exe
+          path: ./build-win32-static-x64\Debug\sandbox.exe

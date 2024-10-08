@@ -37,6 +37,7 @@ namespace hive {
 
     void Renderer::submitGeometryToDraw(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader)
     {
+        shader->uploadUniformMat4("u_ViewProjection", sceneData_->viewProjectionMatrix);
         shader->bind();
         shader->uploadUniformMat4("u_ViewProjection", sceneData_->viewProjectionMatrix);
         submitGeometryToDraw(vertexArray);
