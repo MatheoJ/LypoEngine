@@ -127,13 +127,13 @@ namespace hive
         glUseProgram(0);
     }
 
-    void OpenglShader::uploadUniformInt(const std::string& name, int value)
+    void OpenglShader::uploadUniformInt(const std::string& name, int value) const
     {
         GLint location = glGetUniformLocation(program_id, name.c_str());
         glUniform1i(location, value);
     }
 
-    void OpenglShader::uploadUniformFloat(const std::string& name, float value)
+    void OpenglShader::uploadUniformFloat(const std::string& name, float value) const
     {
         GLint location = glGetUniformLocation(program_id, name.c_str());
         glUniform1f(location, value);
@@ -143,6 +143,12 @@ namespace hive
     {
         GLint location = glGetUniformLocation(program_id, name.c_str());
         glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]);
+    }
+
+    void OpenglShader::uploadUniformFloat4(const std::string& name, glm::vec4 value)
+    {
+        GLint location = glGetUniformLocation(program_id, name.c_str());
+        glUniform4f(location, value.x, value.y, value.z, value.w);
     }
 
 }

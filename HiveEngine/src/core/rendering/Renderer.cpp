@@ -1,14 +1,20 @@
 #include "Renderer.hpp"
 #include <glm/glm.hpp>
 
+#include "Renderer2D.h"
+
+
 namespace hive {
 
     Renderer::SceneData* Renderer::sceneData_ = new Renderer::SceneData;
 
+    void Renderer::init()
+    {
+        Renderer2D::init();
+    }
+
     void Renderer::beginScene(OrthographicCamera& camera, glm::vec4 backgroundColor)
     {
-
-
         RenderCommand::setClearColor(backgroundColor);
         RenderCommand::clear();
 
@@ -30,8 +36,8 @@ namespace hive {
 
     void Renderer::submitGeometryToDraw(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader)
     {
-        shader->uploadUniformMat4("u_ViewProjection", sceneData_->viewProjectionMatrix);
         shader->bind();
+        shader->uploadUniformMat4("u_ViewProjection", sceneData_->viewProjectionMatrix);
         submitGeometryToDraw(vertexArray);
     }
 }
