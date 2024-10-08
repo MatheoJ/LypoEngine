@@ -65,9 +65,9 @@ int main(void)
     vertexArray.reset(hive::VertexArray::create());
 
     float vertices[3 * 7] = {
-            -0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
-            0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
-            0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
+            -0.5f, -0.5f, -0.1f, 0.8f, 0.2f, 0.8f, 1.0f,
+            0.5f, -0.5f, -0.1f, 0.2f, 0.3f, 0.8f, 1.0f,
+            0.0f,  0.5f, -0.1f, 0.8f, 0.8f, 0.2f, 1.0f
     };
 
     std::shared_ptr<hive::VertexBuffer> vertexBuffer = std::shared_ptr<hive::VertexBuffer>(hive::VertexBuffer::create(vertices, sizeof(vertices)));
@@ -87,10 +87,10 @@ int main(void)
     squareVA.reset(hive::VertexArray::create());
 
     float squareVertices[5 * 4] = {
-            -0.75f, -0.75f, 0.0f,  0.0f, 0.0f,
-            0.75f, -0.75f, 0.0f,  1.0f, 0.0f,
-            0.75f,  0.75f, 0.0f,  1.0f, 1.0f,
-            -0.75f,  0.75f, 0.0f, 0.0f, 1.0f
+            -0.75f, -0.75f, -0.2f,  0.0f, 0.0f,
+            0.75f, -0.75f, -0.2f,  1.0f, 0.0f,
+            0.75f,  0.75f, -0.2f,  1.0f, 1.0f,
+            -0.75f,  0.75f, -0.2f, 0.0f, 1.0f
     };
 
     std::shared_ptr<hive::VertexBuffer> squareVB = std::shared_ptr<hive::VertexBuffer>(hive::VertexBuffer::create(squareVertices, sizeof(squareVertices)));
@@ -113,7 +113,7 @@ int main(void)
 
     float angle = 0.0f;
 
-    hive::Renderer2D::init();
+    hive::Renderer::init();
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(reinterpret_cast<GLFWwindow*>(window->getNativeWindow())))
@@ -131,9 +131,9 @@ int main(void)
         hive::Renderer::submitGeometryToDraw(vertexArray, colorShader);
 
         hive::Renderer2D::beginScene(m_Camera);
-        hive::Renderer2D::drawQuad({ 0.0f, 0.0f }, { 1.0f, 0.5f }, { 0.8f, 0.2f, 0.8f, 1.0f });
+        hive::Renderer2D::drawQuad({ 0.0f, -0.5f }, { 1.0f, 0.5f }, { 0.8f, 0.2f, 0.8f, 1.0f });
 
-        hive::Renderer2D::drawQuad({ 0.0f, 1.0f}, { 1.0f, 1.0f }, grassTexture);
+        hive::Renderer2D::drawQuad({ 0.0f, 0.0f, -0.3f }, { 10.0f, 10.0f }, grassTexture);
 
 
         hive::Renderer::endScene();

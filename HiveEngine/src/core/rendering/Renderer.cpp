@@ -10,6 +10,7 @@ namespace hive {
 
     void Renderer::init()
     {
+        RenderCommand::init();
         Renderer2D::init();
     }
 
