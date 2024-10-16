@@ -108,8 +108,8 @@ int main(void)
     squareIB.reset(hive::IndexBuffer::create(squareIndices, sizeof(squareIndices)));
     squareVA->setIndexBuffer(squareIB);
 
-    std::shared_ptr<hive::Texture2D> m_Texture = hive::Texture2D::Create("../HiveEngine/assets/textures/Checkerboard.png");
-    std::shared_ptr<hive::Texture2D> grassTexture = hive::Texture2D::Create("../HiveEngine/assets/textures/grass.jpg");
+    std::shared_ptr<hive::Texture2D> m_Texture = hive::Texture2D::Create("../Sandbox/assets/textures/Checkerboard.png");
+    std::shared_ptr<hive::Texture2D> grassTexture = hive::Texture2D::Create("../Sandbox/assets/textures/grass.jpg");
 
     textureShader->bind();
     textureShader->uploadUniformInt("u_Texture", 0);
